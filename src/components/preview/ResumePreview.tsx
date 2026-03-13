@@ -2,9 +2,8 @@
 import { useResume } from "@/store/resumeStore";
 import { formatDate } from "@/lib/utils";
 
-// A4 dimensions in px at 96dpi: 794 x 1123
-const A4_WIDTH = 794;
-const A4_HEIGHT = 1123;
+const A4_WIDTH = 595;
+const A4_HEIGHT = 842;
 
 export default function ResumePreview() {
   const { resumeData } = useResume();
@@ -18,6 +17,12 @@ export default function ResumePreview() {
     projects,
   } = resumeData;
 
+  const contactItems = buildContactItems(personalInfo);
+  const hasSkills =
+    skills.technical.length > 0 ||
+    skills.soft.length > 0 ||
+    skills.languages.length > 0;
+
   return (
     <div
       id="resume-preview"
@@ -25,57 +30,109 @@ export default function ResumePreview() {
         width: `${A4_WIDTH}px`,
         minHeight: `${A4_HEIGHT}px`,
         backgroundColor: "#fff",
-        fontFamily: "Georgia, 'Times New Roman', serif",
-        fontSize: "11px",
-        lineHeight: "1.5",
-        color: "#000",
-        padding: "40px 48px",
+        fontFamily: "'Times New Roman', Times, serif",
+        fontSize: "10.5px",
+        lineHeight: "1.35",
+        color: "#000000",
+        paddingTop: "32px",
+        paddingBottom: "32px",
+        paddingLeft: "44px",
+        paddingRight: "44px",
         boxSizing: "border-box",
-        position: "relative",
       }}
     >
       {/* ── Header ── */}
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
-        <h1
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: "10px",
+          width: "100%",
+        }}
+      >
+        {/* Name */}
+        <div
           style={{
-            fontSize: "22px",
+            fontFamily: "'Times New Roman', Times, serif",
             fontWeight: "700",
-            fontFamily: "Arial, Helvetica, sans-serif",
+            fontSize: "20px",
             letterSpacing: "0.5px",
-            color: "#000",
-            margin: "0 0 6px 0",
+            color: "#000000",
+            marginBottom: "4px",
           }}
         >
           {personalInfo.fullName || "Your Full Name"}
-        </h1>
-
-        {/* Contact Row */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "4px 0",
-            fontSize: "10px",
-            color: "#333",
-            fontFamily: "Arial, Helvetica, sans-serif",
-          }}
-        >
-          {buildContactItems(personalInfo).map((item, index) => (
-            <span key={index} style={{ display: "inline-flex", alignItems: "center" }}>
-              {index > 0 && (
-                <span style={{ color: "#999", margin: "0 6px" }}>|</span>
-              )}
-              {item}
-            </span>
-          ))}
         </div>
+
+        {/* Contact — row 1: first 3 items */}
+        {[contactItems.slice(0, 3), contactItems.slice(3)].map(
+          (rowItems, rowIndex) =>
+            rowItems.length > 0 && (
+              <div
+                key={rowIndex}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "9.5px",
+                  color: "#000000",
+                  marginBottom: "1px",
+                  fontFamily: "'Times New Roman', Times, serif",
+                }}
+              >
+                {rowItems.map((item, index) => (
+                  <span
+                    key={index}
+                    style={{ display: "inline-flex", alignItems: "center" }}
+                  >
+                    {index > 0 && (
+                      <span
+                        style={{
+                          color: "#666666",
+                          marginLeft: "3px",
+                          marginRight: "3px",
+                        }}
+                      >
+                        |
+                      </span>
+                    )}
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "#000000",
+                          textDecoration: "none",
+                        }}
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span>{item.value}</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )
+        )}
       </div>
 
       {/* ── Summary ── */}
       {summary && (
         <Section title="PROFESSIONAL SUMMARY">
-          <p style={{ margin: 0, textAlign: "justify", width: "100%" }}>{summary}</p>
+          <p
+            style={{
+              margin: 0,
+              textAlign: "justify",
+              width: "100%",
+              fontFamily: "'Times New Roman', Times, serif",
+              fontSize: "10.5px",
+              lineHeight: "1.35",
+              color: "#000000",
+            }}
+          >
+            {summary}
+          </p>
         </Section>
       )}
 
@@ -85,49 +142,86 @@ export default function ResumePreview() {
           {experience.map((exp) => {
             if (!exp.jobTitle && !exp.company) return null;
             return (
-              <div key={exp.id} style={{ marginBottom: "10px" }}>
+              <div key={exp.id} style={{ marginBottom: "6px", width: "100%" }}>
+                {/* Title + Date */}
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: "baseline",
+                    alignItems: "flex-start",
+                    width: "100%",
                   }}
                 >
                   <span
                     style={{
                       fontWeight: "700",
-                      fontFamily: "Arial, sans-serif",
-                      fontSize: "11px",
+                      fontFamily: "'Times New Roman', Times, serif",
+                      fontSize: "10.5px",
+                      flex: 1,
+                      paddingRight: "8px",
                     }}
                   >
                     {exp.jobTitle}
                   </span>
-                  <span style={{ fontSize: "10px", color: "#444", flexShrink: 0, marginLeft: "8px" }}>
+                  <span
+                    style={{
+                      fontSize: "9.5px",
+                      color: "#444444",
+                      flexShrink: 0,
+                    }}
+                  >
                     {formatDate(exp.startDate)}
                     {" - "}
                     {exp.isCurrent ? "Present" : formatDate(exp.endDate)}
                   </span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+
+                {/* Company + Location */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "1px",
+                  }}
+                >
                   <span
                     style={{
                       fontStyle: "italic",
-                      color: "#333",
-                      fontSize: "10.5px",
+                      color: "#333333",
+                      fontSize: "10px",
+                      flex: 1,
+                      paddingRight: "8px",
                     }}
                   >
                     {exp.company}
                     {exp.location ? ` · ${exp.location}` : ""}
                   </span>
                 </div>
+
+                {/* Bullets */}
                 {exp.bullets.filter(Boolean).length > 0 && (
-                  <ul style={{ margin: "4px 0 0 16px", padding: 0 }}>
+                  <div
+                    style={{
+                      marginLeft: "12px",
+                      marginTop: "2px",
+                      width: "97%",
+                    }}
+                  >
                     {exp.bullets.filter(Boolean).map((bullet, i) => (
-                      <li key={i} style={{ marginBottom: "2px" }}>
-                        {bullet}
-                      </li>
+                      <div
+                        key={i}
+                        style={{
+                          fontSize: "10.5px",
+                          marginBottom: "1px",
+                          color: "#000000",
+                          textAlign: "justify",
+                          fontFamily: "'Times New Roman', Times, serif",
+                        }}
+                      >
+                        {"• "}{bullet}
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </div>
             );
@@ -141,41 +235,60 @@ export default function ResumePreview() {
           {education.map((edu) => {
             if (!edu.institution && !edu.degree) return null;
             return (
-              <div key={edu.id} style={{ marginBottom: "8px" }}>
+              <div key={edu.id} style={{ marginBottom: "6px", width: "100%" }}>
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: "baseline",
+                    alignItems: "flex-start",
+                    width: "100%",
                   }}
                 >
                   <span
                     style={{
                       fontWeight: "700",
-                      fontFamily: "Arial, sans-serif",
-                      fontSize: "11px",
+                      fontFamily: "'Times New Roman', Times, serif",
+                      fontSize: "10.5px",
+                      flex: 1,
+                      paddingRight: "8px",
                     }}
                   >
                     {edu.degree}
                     {edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ""}
                   </span>
-                  <span style={{ fontSize: "10px", color: "#444", flexShrink: 0, marginLeft: "8px" }}>
+                  <span
+                    style={{
+                      fontSize: "9.5px",
+                      color: "#444444",
+                      flexShrink: 0,
+                    }}
+                  >
                     {formatDate(edu.graduationDate)}
                   </span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "1px",
+                  }}
+                >
                   <span
                     style={{
                       fontStyle: "italic",
-                      color: "#333",
-                      fontSize: "10.5px",
+                      color: "#333333",
+                      fontSize: "10px",
+                      flex: 1,
+                      paddingRight: "8px",
                     }}
                   >
                     {edu.institution}
                     {edu.location ? ` · ${edu.location}` : ""}
                   </span>
                   {edu.gpa && (
-                    <span style={{ fontSize: "10px", color: "#444" }}>
+                    <span
+                      style={{ fontSize: "9.5px", color: "#444444", flexShrink: 0 }}
+                    >
                       GPA: {edu.gpa}
                     </span>
                   )}
@@ -187,33 +300,58 @@ export default function ResumePreview() {
       )}
 
       {/* ── Skills ── */}
-      {(skills.technical.length > 0 ||
-        skills.soft.length > 0 ||
-        skills.languages.length > 0) && (
+      {hasSkills && (
         <Section title="SKILLS">
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px", width: "100%" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px", width: "100%" }}>
             {skills.technical.length > 0 && (
-              <div>
-                <span style={{ fontWeight: "700", fontFamily: "Arial, sans-serif" }}>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontFamily: "'Times New Roman', Times, serif",
+                    fontSize: "10.5px",
+                    flexShrink: 0,
+                  }}
+                >
                   Technical:{" "}
                 </span>
-                {skills.technical.join(", ")}
+                <span style={{ fontSize: "10.5px" }}>
+                  {skills.technical.join(", ")}
+                </span>
               </div>
             )}
             {skills.soft.length > 0 && (
-              <div>
-                <span style={{ fontWeight: "700", fontFamily: "Arial, sans-serif" }}>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontFamily: "'Times New Roman', Times, serif",
+                    fontSize: "10.5px",
+                    flexShrink: 0,
+                  }}
+                >
                   Soft Skills:{" "}
                 </span>
-                {skills.soft.join(", ")}
+                <span style={{ fontSize: "10.5px" }}>
+                  {skills.soft.join(", ")}
+                </span>
               </div>
             )}
             {skills.languages.length > 0 && (
-              <div>
-                <span style={{ fontWeight: "700", fontFamily: "Arial, sans-serif" }}>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontFamily: "'Times New Roman', Times, serif",
+                    fontSize: "10.5px",
+                    flexShrink: 0,
+                  }}
+                >
                   Languages:{" "}
                 </span>
-                {skills.languages.join(", ")}
+                <span style={{ fontSize: "10.5px" }}>
+                  {skills.languages.join(", ")}
+                </span>
               </div>
             )}
           </div>
@@ -229,21 +367,49 @@ export default function ResumePreview() {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginBottom: "4px",
+                alignItems: "flex-start",
+                marginBottom: "2px",
+                width: "100%",
               }}
             >
-              <span>
-                <span style={{ fontWeight: "700", fontFamily: "Arial, sans-serif" }}>
+              <div
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  paddingRight: "8px",
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontFamily: "'Times New Roman', Times, serif",
+                    fontSize: "10.5px",
+                  }}
+                >
                   {cert.name}
                 </span>
                 {cert.issuer && (
-                  <span style={{ color: "#333", fontStyle: "italic" }}>
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      color: "#333333",
+                      fontSize: "10.5px",
+                    }}
+                  >
                     {" "}· {cert.issuer}
                   </span>
                 )}
-              </span>
+              </div>
               {cert.dateObtained && (
-                <span style={{ fontSize: "10px", color: "#444", flexShrink: 0, marginLeft: "8px" }}>
+                <span
+                  style={{
+                    fontSize: "9.5px",
+                    color: "#444444",
+                    flexShrink: 0,
+                    textAlign: "right",
+                  }}
+                >
                   {formatDate(cert.dateObtained)}
                 </span>
               )}
@@ -256,42 +422,85 @@ export default function ResumePreview() {
       {projects.length > 0 && (
         <Section title="PROJECTS">
           {projects.map((project) => (
-            <div key={project.id} style={{ marginBottom: "8px" }}>
+            <div key={project.id} style={{ marginBottom: "6px", width: "100%" }}>
+              {/* Name + Link */}
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "baseline",
+                  alignItems: "flex-start",
+                  width: "100%",
                 }}
               >
                 <span
                   style={{
                     fontWeight: "700",
-                    fontFamily: "Arial, sans-serif",
-                    fontSize: "11px",
+                    fontFamily: "'Times New Roman', Times, serif",
+                    fontSize: "10.5px",
+                    flex: 1,
+                    paddingRight: "8px",
                   }}
                 >
                   {project.name}
                 </span>
                 {project.link && (
-                  <span style={{ fontSize: "10px", color: "#555", flexShrink: 0, marginLeft: "8px" }}>
+                  <a
+                    href={`https://${project.link.replace(/^https?:\/\//, "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontSize: "9.5px",
+                      color: "#555555",
+                      flexShrink: 0,
+                      textDecoration: "none",
+                    }}
+                  >
                     {project.link}
-                  </span>
+                  </a>
                 )}
               </div>
+
+              {/* Tech Stack */}
               {project.techStack.length > 0 && (
-                <span
+                <div
                   style={{
-                    fontSize: "10px",
                     fontStyle: "italic",
-                    color: "#444",
+                    fontSize: "9.5px",
+                    color: "#444444",
+                    marginBottom: "1px",
                   }}
                 >
                   {project.techStack.join(", ")}
-                </span>
+                </div>
               )}
+
+              {/* Description as bullets — split by newline */}
               {project.description && (
-                <p style={{ margin: "3px 0 0 0" }}>{project.description}</p>
+                <div
+                  style={{
+                    marginLeft: "12px",
+                    marginTop: "2px",
+                    width: "97%",
+                  }}
+                >
+                  {project.description
+                    .split(/\n+/)
+                    .filter(Boolean)
+                    .map((line, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          fontSize: "10.5px",
+                          marginBottom: "1px",
+                          color: "#000000",
+                          textAlign: "justify",
+                          fontFamily: "'Times New Roman', Times, serif",
+                        }}
+                      >
+                        {"• "}{line.trim()}
+                      </div>
+                    ))}
+                </div>
               )}
             </div>
           ))}
@@ -301,17 +510,32 @@ export default function ResumePreview() {
   );
 }
 
-// ── Helper: build contact items array ──
+// ── Contact items builder ──
 function buildContactItems(
   personalInfo: ReturnType<typeof useResume>["resumeData"]["personalInfo"]
-): string[] {
-  const items: string[] = [];
-  if (personalInfo.email) items.push(personalInfo.email);
-  if (personalInfo.phone) items.push(personalInfo.phone);
-  if (personalInfo.location) items.push(personalInfo.location);
-  if (personalInfo.linkedIn) items.push(personalInfo.linkedIn);
-  if (personalInfo.github) items.push(personalInfo.github);
-  if (personalInfo.website) items.push(personalInfo.website);
+): { value: string; href?: string }[] {
+  const items: { value: string; href?: string }[] = [];
+  if (personalInfo.email)
+    items.push({ value: personalInfo.email, href: `mailto:${personalInfo.email}` });
+  if (personalInfo.phone)
+    items.push({ value: personalInfo.phone });
+  if (personalInfo.location)
+    items.push({ value: personalInfo.location });
+  if (personalInfo.linkedIn)
+    items.push({
+      value: personalInfo.linkedIn,
+      href: `https://${personalInfo.linkedIn.replace(/^https?:\/\//, "")}`,
+    });
+  if (personalInfo.github)
+    items.push({
+      value: personalInfo.github,
+      href: `https://${personalInfo.github.replace(/^https?:\/\//, "")}`,
+    });
+  if (personalInfo.website)
+    items.push({
+      value: personalInfo.website,
+      href: `https://${personalInfo.website.replace(/^https?:\/\//, "")}`,
+    });
   return items;
 }
 
@@ -324,18 +548,19 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ marginBottom: "14px", width: "100%" }}>
+    <div style={{ marginBottom: "8px", width: "100%" }}>
       <div
         style={{
-          fontFamily: "Arial, Helvetica, sans-serif",
-          fontSize: "11px",
+          fontFamily: "'Times New Roman', Times, serif",
+          fontSize: "10.5px",
           fontWeight: "700",
-          letterSpacing: "1px",
+          letterSpacing: "0.8px",
           textTransform: "uppercase",
-          borderBottom: "1.5px solid #000",
-          paddingBottom: "2px",
-          marginBottom: "6px",
-          color: "#000",
+          borderBottom: "1px solid #000000",
+          paddingBottom: "1px",
+          marginBottom: "4px",
+          color: "#000000",
+          width: "100%",
         }}
       >
         {title}

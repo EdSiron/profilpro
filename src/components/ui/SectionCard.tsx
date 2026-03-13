@@ -17,7 +17,7 @@ export default function SectionCard({
     <div
       className={cn(
         "bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100",
-        className
+        className,
       )}
     >
       <div className="mb-4 sm:mb-5">

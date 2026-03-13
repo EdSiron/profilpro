@@ -38,10 +38,7 @@ export default function SummaryForm() {
           borderColor: "rgba(59,130,246,0.15)",
         }}
       >
-        <p
-          className="text-xs font-semibold mb-2"
-          style={{ color: "#3B82F6" }}
-        >
+        <p className="text-xs font-semibold mb-2" style={{ color: "#3B82F6" }}>
           💡 ATS Tips for your Summary
         </p>
         <ul className="text-xs space-y-1.5" style={{ color: "#64748b" }}>

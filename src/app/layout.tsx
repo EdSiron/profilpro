@@ -18,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen antialiased">
-        <ResumeProvider>
-          {children}
-        </ResumeProvider>
+        <ResumeProvider>{children}</ResumeProvider>
       </body>
     </html>
   );

@@ -24,7 +24,9 @@ export default function EducationForm() {
                 placeholder="e.g. Bachelor of Science"
                 required
                 value={edu.degree}
-                onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
+                onChange={(e) =>
+                  updateEducation(edu.id, { degree: e.target.value })
+                }
               />
               <Input
                 label="Field of Study"
@@ -68,7 +70,9 @@ export default function EducationForm() {
                 label="GPA (Optional)"
                 placeholder="e.g. 3.8 / 4.0"
                 value={edu.gpa}
-                onChange={(e) => updateEducation(edu.id, { gpa: e.target.value })}
+                onChange={(e) =>
+                  updateEducation(edu.id, { gpa: e.target.value })
+                }
               />
             </div>
 

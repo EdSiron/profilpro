@@ -7,7 +7,14 @@ import {
   useCallback,
   ReactNode,
 } from "react";
-import { ResumeData, FormStep, Experience, Education, Certification, Project } from "@/types/resume";
+import {
+  ResumeData,
+  FormStep,
+  Experience,
+  Education,
+  Certification,
+  Project,
+} from "@/types/resume";
 import { defaultResumeData } from "@/lib/defaults";
 import { generateId } from "@/lib/utils";
 
@@ -67,7 +74,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
         personalInfo: { ...prev.personalInfo, ...data },
       }));
     },
-    []
+    [],
   );
 
   // Summary
@@ -100,11 +107,11 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
       setResumeData((prev) => ({
         ...prev,
         experience: prev.experience.map((exp) =>
-          exp.id === id ? { ...exp, ...data } : exp
+          exp.id === id ? { ...exp, ...data } : exp,
         ),
       }));
     },
-    []
+    [],
   );
 
   const removeExperience = useCallback((id: string) => {
@@ -120,7 +127,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
       experience: prev.experience.map((exp) =>
         exp.id === experienceId
           ? { ...exp, bullets: [...exp.bullets, ""] }
-          : exp
+          : exp,
       ),
     }));
   }, []);
@@ -137,22 +144,19 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
         }),
       }));
     },
-    []
+    [],
   );
 
-  const removeBullet = useCallback(
-    (experienceId: string, index: number) => {
-      setResumeData((prev) => ({
-        ...prev,
-        experience: prev.experience.map((exp) => {
-          if (exp.id !== experienceId) return exp;
-          const bullets = exp.bullets.filter((_, i) => i !== index);
-          return { ...exp, bullets };
-        }),
-      }));
-    },
-    []
-  );
+  const removeBullet = useCallback((experienceId: string, index: number) => {
+    setResumeData((prev) => ({
+      ...prev,
+      experience: prev.experience.map((exp) => {
+        if (exp.id !== experienceId) return exp;
+        const bullets = exp.bullets.filter((_, i) => i !== index);
+        return { ...exp, bullets };
+      }),
+    }));
+  }, []);
 
   // Education
   const addEducation = useCallback(() => {
@@ -178,11 +182,11 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
       setResumeData((prev) => ({
         ...prev,
         education: prev.education.map((edu) =>
-          edu.id === id ? { ...edu, ...data } : edu
+          edu.id === id ? { ...edu, ...data } : edu,
         ),
       }));
     },
-    []
+    [],
   );
 
   const removeEducation = useCallback((id: string) => {
@@ -193,15 +197,12 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Skills
-  const updateSkills = useCallback(
-    (data: Partial<ResumeData["skills"]>) => {
-      setResumeData((prev) => ({
-        ...prev,
-        skills: { ...prev.skills, ...data },
-      }));
-    },
-    []
-  );
+  const updateSkills = useCallback((data: Partial<ResumeData["skills"]>) => {
+    setResumeData((prev) => ({
+      ...prev,
+      skills: { ...prev.skills, ...data },
+    }));
+  }, []);
 
   // Certifications
   const addCertification = useCallback(() => {
@@ -219,11 +220,11 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
       setResumeData((prev) => ({
         ...prev,
         certifications: prev.certifications.map((cert) =>
-          cert.id === id ? { ...cert, ...data } : cert
+          cert.id === id ? { ...cert, ...data } : cert,
         ),
       }));
     },
-    []
+    [],
   );
 
   const removeCertification = useCallback((id: string) => {
@@ -250,17 +251,14 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const updateProject = useCallback(
-    (id: string, data: Partial<Project>) => {
-      setResumeData((prev) => ({
-        ...prev,
-        projects: prev.projects.map((proj) =>
-          proj.id === id ? { ...proj, ...data } : proj
-        ),
-      }));
-    },
-    []
-  );
+  const updateProject = useCallback((id: string, data: Partial<Project>) => {
+    setResumeData((prev) => ({
+      ...prev,
+      projects: prev.projects.map((proj) =>
+        proj.id === id ? { ...proj, ...data } : proj,
+      ),
+    }));
+  }, []);
 
   const removeProject = useCallback((id: string) => {
     setResumeData((prev) => ({

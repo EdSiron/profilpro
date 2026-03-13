@@ -1,5 +1,12 @@
 import { ResumeData } from "@/types/resume";
 
+function genId(): string {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
 export const defaultResumeData: ResumeData = {
   personalInfo: {
     fullName: "",
@@ -13,7 +20,7 @@ export const defaultResumeData: ResumeData = {
   summary: "",
   experience: [
     {
-      id: crypto.randomUUID(),
+      id: genId(),
       jobTitle: "",
       company: "",
       location: "",
@@ -25,7 +32,7 @@ export const defaultResumeData: ResumeData = {
   ],
   education: [
     {
-      id: crypto.randomUUID(),
+      id: genId(),
       degree: "",
       fieldOfStudy: "",
       institution: "",

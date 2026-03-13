@@ -155,10 +155,7 @@ export default function ProjectsForm() {
                   </span>
                 ))}
                 {project.techStack.length === 0 && (
-                  <span
-                    className="text-xs italic"
-                    style={{ color: "#94a3b8" }}
-                  >
+                  <span className="text-xs italic" style={{ color: "#94a3b8" }}>
                     No technologies added yet
                   </span>
                 )}

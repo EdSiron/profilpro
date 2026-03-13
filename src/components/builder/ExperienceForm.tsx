@@ -31,14 +31,18 @@ export default function ExperienceForm() {
                 placeholder="e.g. Senior Software Engineer"
                 required
                 value={exp.jobTitle}
-                onChange={(e) => updateExperience(exp.id, { jobTitle: e.target.value })}
+                onChange={(e) =>
+                  updateExperience(exp.id, { jobTitle: e.target.value })
+                }
               />
               <Input
                 label="Company"
                 placeholder="e.g. Acme Corp"
                 required
                 value={exp.company}
-                onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
+                onChange={(e) =>
+                  updateExperience(exp.id, { company: e.target.value })
+                }
               />
             </div>
 
@@ -46,7 +50,9 @@ export default function ExperienceForm() {
               label="Location"
               placeholder="e.g. Makati, Philippines / Remote"
               value={exp.location}
-              onChange={(e) => updateExperience(exp.id, { location: e.target.value })}
+              onChange={(e) =>
+                updateExperience(exp.id, { location: e.target.value })
+              }
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -54,7 +60,9 @@ export default function ExperienceForm() {
                 label="Start Date"
                 type="month"
                 value={exp.startDate}
-                onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
+                onChange={(e) =>
+                  updateExperience(exp.id, { startDate: e.target.value })
+                }
               />
               <div className="flex flex-col gap-1.5">
                 <Input
@@ -62,7 +70,9 @@ export default function ExperienceForm() {
                   type="month"
                   value={exp.endDate}
                   disabled={exp.isCurrent}
-                  onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
+                  onChange={(e) =>
+                    updateExperience(exp.id, { endDate: e.target.value })
+                  }
                 />
                 <label className="flex items-center gap-2 cursor-pointer mt-1">
                   <input

@@ -28,16 +28,10 @@ export default function CertificationsForm() {
             size={32}
             style={{ color: "#94a3b8", margin: "0 auto 12px" }}
           />
-          <p
-            className="text-sm font-medium"
-            style={{ color: "#64748b" }}
-          >
+          <p className="text-sm font-medium" style={{ color: "#64748b" }}>
             No certifications added yet
           </p>
-          <p
-            className="text-xs mt-1 mb-4"
-            style={{ color: "#94a3b8" }}
-          >
+          <p className="text-xs mt-1 mb-4" style={{ color: "#94a3b8" }}>
             Certifications boost your ATS score significantly
           </p>
           <Button variant="secondary" onClick={addCertification}>

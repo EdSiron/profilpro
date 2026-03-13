@@ -8,7 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 
 // ── Generate unique ID ─────────────────────────────────
 export function generateId(): string {
-  return crypto.randomUUID();
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 // ── Format date from YYYY-MM to "Jan 2024" ─────────────
@@ -35,7 +38,7 @@ export function isSectionComplete(data: unknown): boolean {
   if (Array.isArray(data)) return data.length > 0;
   if (typeof data === "object") {
     return Object.values(data as Record<string, unknown>).some(
-      (v) => v !== "" && v !== null && v !== undefined
+      (v) => v !== "" && v !== null && v !== undefined,
     );
   }
   return false;
