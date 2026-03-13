@@ -113,7 +113,7 @@ export default function ResumePreview() {
                   </span>
                 ))}
               </div>
-            )
+            ),
         )}
       </div>
 
@@ -218,7 +218,8 @@ export default function ResumePreview() {
                           fontFamily: "'Times New Roman', Times, serif",
                         }}
                       >
-                        {"• "}{bullet}
+                        {"• "}
+                        {bullet}
                       </div>
                     ))}
                   </div>
@@ -287,7 +288,11 @@ export default function ResumePreview() {
                   </span>
                   {edu.gpa && (
                     <span
-                      style={{ fontSize: "9.5px", color: "#444444", flexShrink: 0 }}
+                      style={{
+                        fontSize: "9.5px",
+                        color: "#444444",
+                        flexShrink: 0,
+                      }}
                     >
                       GPA: {edu.gpa}
                     </span>
@@ -302,7 +307,14 @@ export default function ResumePreview() {
       {/* ── Skills ── */}
       {hasSkills && (
         <Section title="SKILLS">
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "2px",
+              width: "100%",
+            }}
+          >
             {skills.technical.length > 0 && (
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 <span
@@ -397,7 +409,8 @@ export default function ResumePreview() {
                       fontSize: "10.5px",
                     }}
                   >
-                    {" "}· {cert.issuer}
+                    {" "}
+                    · {cert.issuer}
                   </span>
                 )}
               </div>
@@ -422,7 +435,10 @@ export default function ResumePreview() {
       {projects.length > 0 && (
         <Section title="PROJECTS">
           {projects.map((project) => (
-            <div key={project.id} style={{ marginBottom: "6px", width: "100%" }}>
+            <div
+              key={project.id}
+              style={{ marginBottom: "6px", width: "100%" }}
+            >
               {/* Name + Link */}
               <div
                 style={{
@@ -497,7 +513,8 @@ export default function ResumePreview() {
                           fontFamily: "'Times New Roman', Times, serif",
                         }}
                       >
-                        {"• "}{line.trim()}
+                        {"• "}
+                        {line.trim()}
                       </div>
                     ))}
                 </div>
@@ -512,15 +529,16 @@ export default function ResumePreview() {
 
 // ── Contact items builder ──
 function buildContactItems(
-  personalInfo: ReturnType<typeof useResume>["resumeData"]["personalInfo"]
+  personalInfo: ReturnType<typeof useResume>["resumeData"]["personalInfo"],
 ): { value: string; href?: string }[] {
   const items: { value: string; href?: string }[] = [];
   if (personalInfo.email)
-    items.push({ value: personalInfo.email, href: `mailto:${personalInfo.email}` });
-  if (personalInfo.phone)
-    items.push({ value: personalInfo.phone });
-  if (personalInfo.location)
-    items.push({ value: personalInfo.location });
+    items.push({
+      value: personalInfo.email,
+      href: `mailto:${personalInfo.email}`,
+    });
+  if (personalInfo.phone) items.push({ value: personalInfo.phone });
+  if (personalInfo.location) items.push({ value: personalInfo.location });
   if (personalInfo.linkedIn)
     items.push({
       value: personalInfo.linkedIn,
